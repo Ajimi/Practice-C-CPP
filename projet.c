@@ -10,12 +10,18 @@ int tableLength;
 Sort the table
 */
 void sort(){
-	/*sortYear(2);
-	sortMonth(1);
-	sortDay(0);
-	sortHour(3);*/
+	/*sortYear();
+	sortMonth();
+	sortDay();
+	sortHour();*/
 	// TODO : Create the sorting algorithm
 }
+
+/*
+	Validation de rendez vous
+	(N'existe pas)	
+	-------------
+*/ 
 
 /*
 	check the hour
@@ -76,7 +82,7 @@ int * readHour(){
 		if(status == -1 )
 			printf("Please write a valid hour\n");
 	} while(status == -1);
-	// return table of hour
+7	// return table of hour
 	table[0] = startHour;
 	table[1] = endHour;
 	return table;
@@ -143,6 +149,12 @@ void readName(int pos){
 	Lire rendez vous
 	storihom fi donnnée
 */
+
+/*
+	Ajout de rendez vous
+	(Position)
+*/
+
 void readRendezVous(int n){
 	int i;
 	
@@ -155,16 +167,9 @@ void readRendezVous(int n){
 }
 
 
-/*
-	Ajout de rendez vous
-	(tableau date  , nom)
-*/
 
 
-/*
-	Validation de rendez vous
-	(date valide)	
-*/
+
 
 /*
 	Validationd e rendez vous
@@ -217,6 +222,15 @@ void modifyRDV(){
 /*
 	Affiche rendez vous(i)
 */
+void showRendezVous(int n){
+	printf("%s\n",tabnom[n] );
+	int i;
+	for(i = 0 ; i < 5 ;i++){
+		printf("%d / ", MatriceDate[n][i]);
+	}
+}
+
+
 void showRDVDate(){
 	//Read date debut
 	// Read date fin
@@ -260,11 +274,7 @@ int main() {
 		Main content
 	*/
 	readRendezVous(0);
-	printf("%s\n",tabnom[0] );
-	/*int i;
-	for(i = 0 ; i < 5 ;i++){
-		printf("%d / ", MatriceDate[0][i]);
-	}*/
+	
 	int n;
 	scanf("%d",&n);
 	return 0;
