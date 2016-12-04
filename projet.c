@@ -3,9 +3,9 @@
 #include "stdlib.h"
 
 
-int MatriceDat[500][5];
+int MatriceDate[500][5];
 char *tabnom[500];
-
+int tableLength;
 /*
 Sort the table
 */
@@ -133,7 +133,7 @@ Lire nom de personne
 void readName(int pos){
 	char name[100];
 	printf("write your name\n"); 
-	scanf("%[^\n]s" , name); // Read with spaces;
+	scanf("%s",name); // Read with spaces;
 	//Adding to the generale table
 	tabnom[pos] = name;
 }
@@ -145,11 +145,13 @@ void readName(int pos){
 */
 void readRendezVous(int n){
 	int i;
+	
+	int *table  = createTableDate();
+	for( i = 0 ; i < 5 ; i++){
+		MatriceDate[n][i] = table[i];
+	}
 	readName(n);
-	// Uncoment this int *table  = createTableDate();
-	//for( i = 0 ; i < 5 ; i++){
-	//	MatriceDat[n][i] = table[i];
-	// }
+	
 }
 
 
@@ -259,7 +261,10 @@ int main() {
 	*/
 	readRendezVous(0);
 	printf("%s\n",tabnom[0] );
-	
+	/*int i;
+	for(i = 0 ; i < 5 ;i++){
+		printf("%d / ", MatriceDate[0][i]);
+	}*/
 	int n;
 	scanf("%d",&n);
 	return 0;
