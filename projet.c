@@ -9,29 +9,134 @@ char tabnom[500][50];
 /*
 Sort the table
 */
-
-
-/*
-	Ta9ra heure
-*/
-/*
-	ta9ra el date 
-
-*/
+void sort(){
+	sortYear(2);
+	sortMonth(1);
+	sortDay(0);
+	sortHour(3);
+	// TODO : Create the sorting algorithm
+}
 
 /*
-	Lire nom de personne
+	check the hour
 */
+int checkHour(int sh , int eh){
+	// Sh mean startHour eh mean endHour
+	if((sh < 1 || sh > 23) || (eh < 1 || eh > 23)){
+		return -1;
+	}
+	return 0;
+}
+/*
+	check the date
+*/
+int checkDate(int yy , int mm , int dd){
+	if(yy>=1900 && yy<=9999) {
+        //check month
+        if(mm>=1 && mm<=12){
+            //check days
+            if((dd>=1 && dd<=31) && (mm==1 || mm==3 || mm==5 || mm==7 || mm==8 || mm==10 || mm==12))
+                printf("Date is valid.\n");
+            else if((dd>=1 && dd<=30) && (mm==4 || mm==6 || mm==9 || mm==11))
+                printf("Date is valid.\n");
+            else if((dd>=1 && dd<=28) && (mm==2))
+                printf("Date is valid.\n");
+            else if(dd==29 && mm==2 && (yy%400==0 ||(yy%4==0 && yy%100!=0)))
+                printf("Date is valid.\n");
+            else{
+                printf("Day is invalid.\n");
+                return -1;
+            }
+        }
+        else {
+            printf("Month is not valid.\n");
+            return -1;
+        }
+    }
+    else {
+        printf("Year is not valid.\n");
+        return -1;
+    }
+    return 1;    
+}
+
+/*
+Ta9ra heure
+*/
+int [] readHour(){
+	
+	int startHour , endHour;
+	int table[2];
+	printf("Write the start hour\n");
+	scanf("%d",&startHour);
+
+	printf("Write the end hour\n");
+	scanf("%d",&endHour);
+	// TODO : check the hour
+	
+	// return table of hour
+	table[0] = startHour;
+	table[1] = endHour;
+	return table;
+}
+/*
+ta9ra el date 
+*/
+int [] readDate(){
+	int year, month , day;
+	int table[3];
+	printf("Write the Year\n");
+	scanf("%d" , &year);
+
+	printf("Write the Month\n");
+	scanf("%d" , &month);
+
+	printf("Write the day\n");
+	scanf("%d" , &day);
+	// TODO : check the date
+
+	// return a table of date
+	table[0] = day;
+	table[1] = month;
+	table[2] = year;
+
+	return table;
+}
+/*
+Creation de tableau date
+*/
+int [] createTableDate(){
+	int time [5] , i;
+	int date [] = readDate();
+	int hour [] = readHour();
+	for(i = 0 ; i < 3 ; i++)
+		time[i] = date[i];
+	for(i = 0 ; i < 2 ; i++)
+		time[i+3] = hour[i];
+	return time ;
+}
+
+/*
+Lire nom de personne
+*/
+string readName(){
+	string name;
+	scanf("%[^\n]s" , name); // Read with spaces;
+	// return the string
+}
+
 
 /*
 	Lire rendez vous
 	storihom fi donnnée
 */
 
+
 /*
 	Ajout de rendez vous
 	(tableau date  , nom)
 */
+
 
 /*
 	Validation de rendez vous
@@ -42,6 +147,7 @@ Sort the table
 	Validationd e rendez vous
 	(date existe) thcouf date mawjouda fi tableau wela le
 */
+
 
 void addRDV(){
 	// Saisir Rendez vous
