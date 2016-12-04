@@ -4,7 +4,7 @@
 
 
 int MatriceDat[500][5];
-char tabnom[500][50];
+char *tabnom[500];
 
 /*
 Sort the table
@@ -130,11 +130,12 @@ int * createTableDate(){
 /*
 Lire nom de personne
 */
-char *readName(){
-	static char name[500];
+void readName(int pos){
+	char name[100];
+	printf("write your name\n"); 
 	scanf("%[^\n]s" , name); // Read with spaces;
-	// return the string
-	return name;
+	//Adding to the generale table
+	tabnom[pos] = name;
 }
 
 
@@ -142,7 +143,14 @@ char *readName(){
 	Lire rendez vous
 	storihom fi donnnée
 */
-
+void readRendezVous(int n){
+	int i;
+	readName(n);
+	// Uncoment this int *table  = createTableDate();
+	//for( i = 0 ; i < 5 ; i++){
+	//	MatriceDat[n][i] = table[i];
+	// }
+}
 
 
 /*
@@ -246,12 +254,12 @@ void multipleChoice(){
 }
 
 int main() {
-	//multipleChoice();
-	int *table  = createTableDate();
-	int i ;
-	for(i = 0 ; i < 5 ; i++){
-		printf("%d\n",table[i] );
-	}
+	/*
+		Main content
+	*/
+	readRendezVous(0);
+	printf("%s\n",tabnom[0] );
+	
 	int n;
 	scanf("%d",&n);
 	return 0;
