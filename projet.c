@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "string.h"
-
+#include "stdlib.h"
 
 
 int MatriceDat[500][5];
@@ -25,7 +25,7 @@ int checkHour(int sh , int eh){
 	if((sh < 1 || sh > 23) || (eh < 1 || eh > 23)){
 		return -1;
 	}
-	return 0;
+	return 1;
 }
 /*
 	check the date
@@ -36,7 +36,7 @@ int checkDate(int yy , int mm , int dd){
         if(mm>=1 && mm<=12){
             //check days
             if((dd>=1 && dd<=31) && (mm==1 || mm==3 || mm==5 || mm==7 || mm==8 || mm==10 || mm==12))
-                printf("Date is valid.\n");
+                printf("Date is valid.\n"); 
             else if((dd>=1 && dd<=30) && (mm==4 || mm==6 || mm==9 || mm==11))
                 printf("Date is valid.\n");
             else if((dd>=1 && dd<=28) && (mm==2))
@@ -47,13 +47,11 @@ int checkDate(int yy , int mm , int dd){
                 printf("Day is invalid.\n");
                 return -1;
             }
-        }
-        else {
+        } else {
             printf("Month is not valid.\n");
             return -1;
         }
-    }
-    else {
+    } else {
         printf("Year is not valid.\n");
         return -1;
     }
@@ -63,17 +61,21 @@ int checkDate(int yy , int mm , int dd){
 /*
 Ta9ra heure
 */
-int [] readHour(){
-	
+int * readHour(){
 	int startHour , endHour;
-	int table[2];
+	int status;
+	int *table = malloc(sizeof(int) * 2);
+	do{
 	printf("Write the start hour\n");
 	scanf("%d",&startHour);
 
 	printf("Write the end hour\n");
 	scanf("%d",&endHour);
 	// TODO : check the hour
-	
+	status = checkHour(startHour,endHour); // if valid hour will return 1 else -1
+	if(status == -1 )
+		printf("Please write a valid hour\n");
+	} while(status == 1);
 	// return table of hour
 	table[0] = startHour;
 	table[1] = endHour;
@@ -82,9 +84,9 @@ int [] readHour(){
 /*
 ta9ra el date 
 */
-int [] readDate(){
+int * readDate(){
 	int year, month , day;
-	int table[3];
+	int *table = malloc(sizeof(int) * 3);
 	printf("Write the Year\n");
 	scanf("%d" , &year);
 
@@ -105,10 +107,11 @@ int [] readDate(){
 /*
 Creation de tableau date
 */
-int [] createTableDate(){
-	int time [5] , i;
-	int date [] = readDate();
-	int hour [] = readHour();
+int * createTableDate(){
+	static int time [5] ;
+	int i;
+	int *date = readDate();
+	int *hour = readHour();
 	for(i = 0 ; i < 3 ; i++)
 		time[i] = date[i];
 	for(i = 0 ; i < 2 ; i++)
@@ -119,10 +122,11 @@ int [] createTableDate(){
 /*
 Lire nom de personne
 */
-string readName(){
-	string name;
+char *readName(){
+	static char name[500];
 	scanf("%[^\n]s" , name); // Read with spaces;
 	// return the string
+	return name;
 }
 
 
@@ -130,6 +134,7 @@ string readName(){
 	Lire rendez vous
 	storihom fi donnnée
 */
+
 
 
 /*
