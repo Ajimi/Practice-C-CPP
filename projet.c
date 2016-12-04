@@ -10,10 +10,10 @@ char tabnom[500][50];
 Sort the table
 */
 void sort(){
-	sortYear(2);
+	/*sortYear(2);
 	sortMonth(1);
 	sortDay(0);
-	sortHour(3);
+	sortHour(3);*/
 	// TODO : Create the sorting algorithm
 }
 
@@ -66,16 +66,16 @@ int * readHour(){
 	int status;
 	int *table = malloc(sizeof(int) * 2);
 	do{
-	printf("Write the start hour\n");
-	scanf("%d",&startHour);
+		printf("Write the start hour\n");
+		scanf("%d",&startHour);
 
-	printf("Write the end hour\n");
-	scanf("%d",&endHour);
-	// TODO : check the hour
-	status = checkHour(startHour,endHour); // if valid hour will return 1 else -1
-	if(status == -1 )
-		printf("Please write a valid hour\n");
-	} while(status == 1);
+		printf("Write the end hour\n");
+		scanf("%d",&endHour);
+		// TODO : check the hour
+		status = checkHour(startHour,endHour); // if valid hour will return 1 else -1
+		if(status == -1 )
+			printf("Please write a valid hour\n");
+	} while(status == -1);
 	// return table of hour
 	table[0] = startHour;
 	table[1] = endHour;
@@ -85,18 +85,26 @@ int * readHour(){
 ta9ra el date 
 */
 int * readDate(){
-	int year, month , day;
+	
 	int *table = malloc(sizeof(int) * 3);
-	printf("Write the Year\n");
-	scanf("%d" , &year);
 
-	printf("Write the Month\n");
-	scanf("%d" , &month);
+	int year, month , day;
+	
+	int status;
+	
+	do{
+		printf("Write the Year\n");
+		scanf("%d",&year);
 
-	printf("Write the day\n");
-	scanf("%d" , &day);
-	// TODO : check the date
+		printf("Write the Month\n");
+		scanf("%d",&month);
 
+		printf("Write the day\n");
+		scanf("%d",&day);
+
+		// TODO : check the date
+		status = checkDate(year,month,day);
+	} while(status == -1);
 	// return a table of date
 	table[0] = day;
 	table[1] = month;
@@ -108,7 +116,7 @@ int * readDate(){
 Creation de tableau date
 */
 int * createTableDate(){
-	static int time [5] ;
+	int *time = malloc(sizeof(int) * 5) ;
 	int i;
 	int *date = readDate();
 	int *hour = readHour();
@@ -238,7 +246,12 @@ void multipleChoice(){
 }
 
 int main() {
-	multipleChoice();
+	//multipleChoice();
+	int *table  = createTableDate();
+	int i ;
+	for(i = 0 ; i < 5 ; i++){
+		printf("%d\n",table[i] );
+	}
 	int n;
 	scanf("%d",&n);
 	return 0;
