@@ -172,7 +172,7 @@ void addRDV(){
 	Delete Mel position n
 */
 
-void deleteFromPosition(int n){
+/*void deleteFromPosition(int n){
 	int i;
 	if(n > 0 && n < tableLength ){
 		for(i = n ; i < tableLength ; i++){
@@ -183,7 +183,7 @@ void deleteFromPosition(int n){
 	}else{
 		printf("Please Write an existing position\n");
 	}
-}
+}*/
 
 void readDateToDelete(){
 
@@ -200,25 +200,16 @@ void deleteRDV(){
 	// Delete (Decalage) // == n
  }
 
-/*
-	
-*/
 
-void deleteRDVFromDate(){
-	// Read date
-	// Sort (trié) tableau
-	// Delete from start date to end date..
-
-}
 	/*
 		Read hour
 	*/
 void readModifyRdv(){
-	int table = createTableDate();
+	/*int *table = createTableDate();
 	if(checkDateIfExist(table) > 0){
 		printf("What you want to modify : \
 			\n\t <1> --- 	Date 	---  \
-			\n\t <2> --- 	Name  	---  \ 
+			\n\t <2> --- 	Name  	---  \
 			\n\t <q> --- 	Quitter  	---  ");
 		char choix;
 		scanf("%c", &choix);
@@ -238,7 +229,7 @@ void readModifyRdv(){
 		}
 
 		
-	}
+	}*/
 }
 void modifyRDV(){
 	// Read hour
@@ -257,11 +248,28 @@ void showRendezVous(int n){
 		printf("%d / ", MatriceDate[n][i]);
 	}
 }
+	
 
+void showFromDate(int start[] , int end []){
+	int i , j;
+	for(int i = 0  ; i < tableLength ; i++ ){
+		for(j = 0 ; j < 4 ; j++){
+			if(MatriceDate[i][j] > start[j])
+		} // 3 2 2016  4 2 2016 9 11 2016 
+	}
+}
+
+/*
+	Read Starting Date and ending Date
+*/
+void readDateToShow(){
+	int * startingDate = createTableDate();
+	int * endingDate = createTableDate();
+	showFromDate(startingDate , endingDate);
+}
 
 void showRDVDate(){
-	//Read date debut
-	// Read date fin
+	readDateToShow();
 }
 
 
