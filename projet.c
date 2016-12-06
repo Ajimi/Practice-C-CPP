@@ -5,27 +5,29 @@
 
 int MatriceDate[500][5];
 char *tabnom[500];
-int tableLength;
-/*
-Sort the table
-*/
-void sort(){
-	/*sortYear();
-	sortMonth();
-	sortDay();
-	sortHour();*/
-	// TODO : Create the sorting algorithm
+int tableLength = 0;
+
+
+
+int checkDateIfExist(int date []){
+	int i , j , count = 0;
+
+	for(i = 0 ; i < tableLength ; i++)
+		for(j = 0 ; j < 4 ; j++)
+			if(MatriceDate[i][j] == date[j] ){
+				count++;
+				if(count >= 4)
+					return i;
+
+			}
+		
+	
+	
+
+	return -1;
 }
 
-/*
-	Validation de rendez vous
-	(N'existe pas)	
-	-------------
-*/ 
 
-/*
-	check the hour
-*/
 int checkHour(int sh , int eh){
 	// Sh mean startHour eh mean endHour
 	if((sh < 1 || sh > 23) || (eh < 1 || eh > 23)){
@@ -33,9 +35,8 @@ int checkHour(int sh , int eh){
 	}
 	return 1;
 }
-/*
-	check the date
-*/
+
+
 int checkDate(int yy , int mm , int dd){
 	if(yy>=1900 && yy<=9999) {
         //check month
@@ -64,9 +65,7 @@ int checkDate(int yy , int mm , int dd){
     return 1;    
 }
 
-/*
-Ta9ra heure
-*/
+
 int * readHour(){
 	int startHour , endHour;
 	int status;
@@ -82,14 +81,13 @@ int * readHour(){
 		if(status == -1 )
 			printf("Please write a valid hour\n");
 	} while(status == -1);
-7	// return table of hour
+	// return table of hour
 	table[0] = startHour;
 	table[1] = endHour;
 	return table;
 }
-/*
-ta9ra el date 
-*/
+
+
 int * readDate(){
 	
 	int *table = malloc(sizeof(int) * 3);
@@ -118,9 +116,8 @@ int * readDate(){
 
 	return table;
 }
-/*
-Creation de tableau date
-*/
+
+
 int * createTableDate(){
 	int *time = malloc(sizeof(int) * 5) ;
 	int i;
@@ -133,9 +130,7 @@ int * createTableDate(){
 	return time ;
 }
 
-/*
-Lire nom de personne
-*/
+
 void readName(int pos){
 	char name[100];
 	printf("write your name\n"); 
@@ -144,54 +139,60 @@ void readName(int pos){
 	tabnom[pos] = name;
 }
 
-
-/*
-	Lire rendez vous
-	storihom fi donnnée
-*/
-
-/*
-	Ajout de rendez vous
-	(Position)
-*/
-
 void readRendezVous(int n){
 	int i;
-	
+
 	int *table  = createTableDate();
-	for( i = 0 ; i < 5 ; i++){
-		MatriceDate[n][i] = table[i];
+	if(checkDateIfExist(table) == -1) {
+		for( i = 0 ; i < 5 ; i++){
+			MatriceDate[n][i] = table[i];
+		}
+		readName(n);
+	} else {
+		printf("The date already reserved\n");
 	}
-	readName(n);
-	
 }
 
-
-
-
-
-
-/*
-	Validationd e rendez vous
-	(date existe) thcouf date mawjouda fi tableau wela le
-*/
 
 
 void addRDV(){
-	// Saisir Rendez vous
-	// En valid rendez vous (date valide , date existe)
+	tableLength++;
+	readRendezVous(tableLength);
 }
 
 
-/*
-	Date existe ou nnonn
-*/
 
 /*
 	Delete chetfase5lek rendez vous mel position mte3i idha ken position file5er n--
 	* if position melol decalage zeda fil woset decalage t[i] = t[i+1]
-
 */
+
+
+/*
+	Delete Mel position n
+*/
+
+void deleteFromPosition(int n){
+	int i;
+	if(n > 0 && n < tableLength ){
+		for(i = n ; i < tableLength ; i++){
+			MatriceDate[i] = MatriceDate[i+1];
+			tabnom[i] = tabnom[i+1];
+		}
+		tableLength--;
+	}else{
+		printf("Please Write an existing position\n");
+	}
+}
+
+void readDateToDelete(){
+
+	int *table = createTableDate();
+	int exist = checkDateIfExist(table);
+	while(exist != -1){
+		printf(" please Write a date that exist you want to delete\n");
+	}
+}
 
 void deleteRDV(){
 	// Read date 
@@ -212,6 +213,33 @@ void deleteRDVFromDate(){
 	/*
 		Read hour
 	*/
+void readModifyRdv(){
+	int table = createTableDate();
+	if(checkDateIfExist(table) > 0){
+		printf("What you want to modify : \
+			\n\t <1> --- 	Date 	---  \
+			\n\t <2> --- 	Name  	---  \ 
+			\n\t <q> --- 	Quitter  	---  ");
+		char choix;
+		scanf("%c", &choix);
+		int n = choix-'0';
+		switch(n){
+			case 1 : 
+				// cchange the date;
+				modifyRdvDate();
+				break;
+			case 2 :
+				modifyRdvName();
+				// change the name;
+
+			default:
+				printf("Come back \n");
+				return ;
+		}
+
+		
+	}
+}
 void modifyRDV(){
 	// Read hour
 	// Check hour if -1 error
