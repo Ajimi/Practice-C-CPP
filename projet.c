@@ -11,28 +11,23 @@ int tableLength = 0;
 
 int checkDateIfExist(int date []){
 	int i , j , count = 0;
-
 	for(i = 0 ; i < tableLength ; i++)
 		for(j = 0 ; j < 4 ; j++)
 			if(MatriceDate[i][j] == date[j] ){
-				count++;
+				count++; // 10 11 2016 11 13
 				if(count >= 4)
 					return i;
-
 			}
-		
-	
-	
-
 	return -1;
 }
 
 
 int checkHour(int sh , int eh){
 	// Sh mean startHour eh mean endHour
-	if((sh < 1 || sh > 23) || (eh < 1 || eh > 23)){
+	if(eh < sh)
 		return -1;
-	}
+	if((sh < 1 || sh > 23) || (eh < 1 || eh > 23))
+		return -1;
 	return 1;
 }
 
@@ -119,7 +114,7 @@ int * readDate(){
 
 
 int * createTableDate(){
-	int *time = malloc(sizeof(int) * 5) ;
+	int *time = malloc(sizeof(int) * 5); 
 	int i;
 	int *date = readDate();
 	int *hour = readHour();
@@ -131,17 +126,16 @@ int * createTableDate(){
 }
 
 
-void readName(int pos){
+void readName(int position){
 	char name[100];
 	printf("write your name\n"); 
 	scanf("%s",name); // Read with spaces;
 	//Adding to the generale table
-	tabnom[pos] = name;
+	tabnom[position] = name;
 }
 
 void readRendezVous(int n){
 	int i;
-
 	int *table  = createTableDate();
 	if(checkDateIfExist(table) == -1) {
 		for( i = 0 ; i < 5 ; i++){
@@ -156,8 +150,8 @@ void readRendezVous(int n){
 
 
 void addRDV(){
-	tableLength++;
 	readRendezVous(tableLength);
+	tableLength++;
 }
 
 
@@ -167,70 +161,74 @@ void addRDV(){
 	* if position melol decalage zeda fil woset decalage t[i] = t[i+1]
 */
 
+int dateIsBigger(int start[] , int date[] ){
+	if(start[2] > date[2] ) // 10 1 2017 // 1 2 2016 
+		return -1;
+	if(start[1] > date[1])
+		return -1;
+	if(start[0] > date[0])
+		return -1;
+	if(start[4] > date[4])
+		return -1;
+	return 1;
+}
+
+int dateIsLesser(int end[] , int date[]){
+	if(end[2] < date[2] ) // 10 1 2017 // 1 2 2016 11
+		return -1;
+	if(end[1] < date[1])
+		return -1;
+	if(end[0] < date[0])
+		return -1;
+	if(end[4] < date[4])
+		return -1;
+	return 1;
+}
 
 /*
 	Delete Mel position n
 */
 
-/*void deleteFromPosition(int n){
+void deleteFromPosition(int n){
 	int i;
 	if(n > 0 && n < tableLength ){
 		for(i = n ; i < tableLength ; i++){
-			MatriceDate[i] = MatriceDate[i+1];
+			int j;
+			for(j = 0 ; j < 5 ;j++)
+				MatriceDate[i][j]= MatriceDate[i][j+1];
 			tabnom[i] = tabnom[i+1];
 		}
 		tableLength--;
 	}else{
 		printf("Please Write an existing position\n");
 	}
-}*/
-
-void readDateToDelete(){
-
-	int *table = createTableDate();
-	int exist = checkDateIfExist(table);
-	while(exist != -1){
-		printf(" please Write a date that exist you want to delete\n");
+}
+/*
+	Delete From starting position to ending position
+*/
+void deleteRendezVous(int start[], int end[]){
+	int i;
+	for(i = 0 ; i <tableLength ; i++){
+		if(dateIsBigger(start,MatriceDate[i]) != -1 && dateIsLesser(start,MatriceDate[i])){
+			deleteFromPosition(i);
+		}
 	}
 }
 
+void readDateToDelete(){
+	int * startingDate = createTableDate();
+	int * endingDate = createTableDate();
+	deleteRendezVous(startingDate,endingDate);
+}
+
 void deleteRDV(){
-	// Read date 
-	// entier Search for date(entier) -1 don't exist >=0 exist
-	// Delete (Decalage) // == n
+	readDateToDelete();
  }
 
 
-	/*
-		Read hour
-	*/
-void readModifyRdv(){
-	/*int *table = createTableDate();
-	if(checkDateIfExist(table) > 0){
-		printf("What you want to modify : \
-			\n\t <1> --- 	Date 	---  \
-			\n\t <2> --- 	Name  	---  \
-			\n\t <q> --- 	Quitter  	---  ");
-		char choix;
-		scanf("%c", &choix);
-		int n = choix-'0';
-		switch(n){
-			case 1 : 
-				// cchange the date;
-				modifyRdvDate();
-				break;
-			case 2 :
-				modifyRdvName();
-				// change the name;
-
-			default:
-				printf("Come back \n");
-				return ;
-		}
-
-		
-	}*/
-}
+/*
+	Ma5demtehech
+*/
 void modifyRDV(){
 	// Read hour
 	// Check hour if -1 error
@@ -238,6 +236,7 @@ void modifyRDV(){
 	// if >= 0 change
 
 }
+
 /*
 	Affiche rendez vous(i)
 */
@@ -250,12 +249,15 @@ void showRendezVous(int n){
 }
 	
 
+
+
 void showFromDate(int start[] , int end []){
 	int i , j;
-	for(int i = 0  ; i < tableLength ; i++ ){
-		for(j = 0 ; j < 4 ; j++){
-			if(MatriceDate[i][j] > start[j])
-		} // 3 2 2016  4 2 2016 9 11 2016 
+	for( i = 0 ; i < tableLength ; i++){
+		if((dateIsBigger(start , MatriceDate[i]) != -1) && dateIsLesser(end, MatriceDate[i]) != -1){
+			for(j = 0 ; j < 5 ;j++)
+				printf(" %d / ",MatriceDate[i][j]);
+		}
 	}
 }
 
@@ -268,7 +270,7 @@ void readDateToShow(){
 	showFromDate(startingDate , endingDate);
 }
 
-void showRDVDate(){
+void showRDV(){
 	readDateToShow();
 }
 
@@ -290,15 +292,19 @@ void multipleChoice(){
 			switch (n){
 				case 1 :
 					printf("Appel de l'affichage");
+					showRDV();
 					break;
 				case 2 :
 					printf("Appel de Modification");
+					// Not Working
 					break;
 				case 3 :
 					printf("Appel de la suppression");
+					deleteRDV();
 					break;
 				case 4 :
-					printf("Appel de l'ajjout");
+					printf("Appel de l'ajout");
+					addRDV();
 					break;
 			}
 	}while (choix != 'q');
@@ -306,12 +312,8 @@ void multipleChoice(){
 }
 
 int main() {
-	/*
-		Main content
-	*/
-	readRendezVous(0);
+
+	multipleChoice();
 	
-	int n;
-	scanf("%d",&n);
 	return 0;
 }
